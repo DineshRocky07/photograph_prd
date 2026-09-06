@@ -152,7 +152,7 @@ export function SettingsClient({ settings: initial }: Props) {
             uploadFolder="balaphoto/branding"
           />
           <p className="text-xs text-muted-foreground mt-2">
-            After choosing or uploading a logo, click <strong>Save Identity</strong> above to update the site immediately.
+            After choosing or uploading a logo, click <strong>Save Business</strong> above to update the site immediately.
           </p>
         </div>
       </section>

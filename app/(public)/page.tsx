@@ -125,7 +125,16 @@ export default async function HomePage() {
         format: "auto",
         quality: "auto",
       })
-    : null;
+    : gallery[0]?.public_id
+    ? getCloudinaryUrl(gallery[0].public_id, {
+        width: 800,
+        height: 600,
+        crop: "fill",
+        gravity: "auto",
+        format: "auto",
+        quality: "auto",
+      })
+    : "https://images.unsplash.com/photo-1554048612-b6a482bc67e5?q=80&w=1200&auto=format&fit=crop";
 
   return (
     <>
@@ -247,11 +256,10 @@ export default async function HomePage() {
                 <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
                   {settings?.about_heading ?? "About Us"}
                 </h2>
-                {settings?.about_body && (
-                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed whitespace-pre-line">
-                    {settings.about_body}
-                  </p>
-                )}
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed whitespace-pre-line">
+                  {settings?.about_body ||
+                    "We are a creative studio specialising in professional photography and visual design. With years of experience behind the lens, we turn your most cherished memories into timeless art."}
+                </p>
                 <div className="pt-2">
                   <Link
                     href="/contact"
