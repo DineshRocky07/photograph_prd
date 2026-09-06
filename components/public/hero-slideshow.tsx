@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Camera, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
 
 type Slide = { src: string; alt: string };
 
@@ -16,7 +16,7 @@ type Props = {
 
 const INTERVAL_MS = 4500;
 
-export function HeroSlideshow({ slides, whatsappPhone }: Props) {
+export function HeroSlideshow({ slides, heading, subheading, whatsappPhone }: Props) {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
@@ -38,7 +38,6 @@ export function HeroSlideshow({ slides, whatsappPhone }: Props) {
     setCurrent((prev) => (prev + 1) % slides.length);
   }
 
-  // Touch swipe support for mobile
   function handleTouchStart(e: React.TouchEvent) {
     touchStartX.current = e.touches[0].clientX;
   }
@@ -54,21 +53,20 @@ export function HeroSlideshow({ slides, whatsappPhone }: Props) {
     touchStartX.current = null;
   }
 
-  // Format phone for direct WhatsApp chat
   const cleanPhone = whatsappPhone?.replace(/[^0-9]/g, "") || "";
   const whatsappUrl = cleanPhone
-    ? `https://wa.me/${cleanPhone}?text=Hi%20Bala%20Photography,%20I%20would%20like%20to%20inquire%20about%20a%20photo%20shoot.`
+    ? `https://wa.me/${cleanPhone}?text=Hi%20Bala%20Photography,%20I%20would%20like%20to%20inquire%20about%20a%20photoshoot.`
     : "/contact";
 
   return (
     <section
-      className="relative flex min-h-[85vh] sm:min-h-[92vh] w-full items-center justify-center overflow-hidden bg-[#080808]"
+      className="relative flex min-h-[75vh] sm:min-h-[88vh] w-full items-end justify-center overflow-hidden bg-black select-none"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Background Slides — Full HD (No milky fade!) */}
+      {/* Background Slides — 100% Full HD (Photo is the star, unobstructed!) */}
       {slides.map((slide, index) => {
         const isActive = index === current;
         return (
@@ -88,75 +86,74 @@ export function HeroSlideshow({ slides, whatsappPhone }: Props) {
                 isActive ? "scale-105" : "scale-100"
               }`}
             />
-            {/* Cinematic subtle gradients: darker at bottom/top for readability, crystal clear in center */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-black/40 to-black/30" />
-            <div className="absolute inset-0 bg-black/20" />
+            {/* Soft bottom vignette only so bottom buttons are crisp; center & top remain 100% clear! */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent pointer-events-none" />
           </div>
         );
       })}
 
-      {/* Main Hero Content */}
-      <div className="relative z-10 container mx-auto px-4 py-16 sm:py-24 text-center flex flex-col items-center">
-        {/* Award-winning badge */}
-        <div className="mb-4 sm:mb-6 inline-flex items-center gap-2 rounded-full border border-[#c59b27]/50 bg-black/50 backdrop-blur-md px-4 py-1 sm:px-5 sm:py-1.5 shadow-[0_0_15px_rgba(197,155,39,0.2)]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#dfb15b] animate-pulse" />
-          <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#dfb15b]">
-            AWARD-WINNING PHOTOGRAPHY STUDIO
-          </span>
-          <span className="h-1.5 w-1.5 rounded-full bg-[#dfb15b] animate-pulse" />
-        </div>
+      {/* Clean, unobtrusive bottom controls (photo is completely visible without big centered text blocking faces!) */}
+      <div className="relative z-10 container mx-auto px-4 pb-12 sm:pb-16 text-center">
+        {/* Subtle heading at the bottom if provided */}
+        {(heading || subheading) && (
+          <div className="max-w-2xl mx-auto mb-6 text-white drop-shadow-md">
+            {heading && (
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
+                {heading}
+              </h1>
+            )}
+            {subheading && (
+              <p className="mt-1 text-xs sm:text-sm text-white/90">
+                {subheading}
+              </p>
+            )}
+          </div>
+        )}
 
-        {/* Hero Title Matching Sample: Scaled responsibly for mobile so it never covers the face */}
-        <div className="max-w-4xl space-y-0.5 sm:space-y-2">
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white drop-shadow-md">
-            Moments That
-          </h1>
-          <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl italic font-normal text-[#dfb15b] tracking-tight drop-shadow-[0_2px_15px_rgba(197,155,39,0.3)]">
-            Last Forever
-          </h2>
-        </div>
-
-        {/* Subtitle */}
-        <p className="mt-4 sm:mt-5 text-[11px] sm:text-xs md:text-sm font-semibold uppercase tracking-[0.25em] sm:tracking-[0.35em] text-white/80">
-          EVERY MOMENT EVERY STORY
-        </p>
-
-        {/* Action Buttons */}
-        <div className="mt-6 sm:mt-10 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto justify-center max-w-xs sm:max-w-none">
+        {/* Action Buttons — sleek, modern, positioned neatly at bottom */}
+        <div className="flex flex-row items-center justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
           <Link
             href="/gallery"
-            className="flex items-center justify-center gap-2 w-full sm:w-auto rounded-sm bg-[#c59b27] px-6 sm:px-8 py-3 sm:py-3.5 text-xs font-bold uppercase tracking-widest text-black transition-all hover:bg-[#dfb15b] hover:shadow-[0_0_25px_rgba(197,155,39,0.4)]"
+            className="rounded-md bg-white text-black px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
           >
-            <Camera className="h-4 w-4" />
-            <span>VIEW OUR WORK</span>
+            View Gallery
           </Link>
 
-          <a
-            href={whatsappUrl}
-            target={cleanPhone ? "_blank" : undefined}
-            rel={cleanPhone ? "noopener noreferrer" : undefined}
-            className="flex items-center justify-center gap-2 w-full sm:w-auto rounded-sm border border-white/20 bg-black/50 backdrop-blur-md px-6 sm:px-8 py-3 sm:py-3.5 text-xs font-bold uppercase tracking-widest text-white transition-all hover:bg-white/10 hover:border-white/50"
-          >
-            <MessageCircle className="h-4 w-4 text-[#dfb15b]" />
-            <span>WHATSAPP US</span>
-          </a>
+          {cleanPhone ? (
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-md bg-[#25D366] text-white px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold hover:bg-[#20bd5a] transition-all shadow-lg"
+            >
+              <MessageCircle className="h-4 w-4" />
+              <span>WhatsApp</span>
+            </a>
+          ) : (
+            <Link
+              href="/contact"
+              className="rounded-md bg-black/60 border border-white/40 text-white backdrop-blur-md px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold hover:bg-black/80 transition-all"
+            >
+              Book a Session
+            </Link>
+          )}
         </div>
       </div>
 
-      {/* Side Arrow Navigation (Hidden on mobile so it never covers the person's face/ears!) */}
+      {/* Desktop Side Arrows (Hidden on mobile so they never sit on subject's face/ears!) */}
       {slides.length > 1 && (
         <>
           <button
             onClick={prevSlide}
             aria-label="Previous slide"
-            className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-20 h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:border-[#c59b27] hover:text-[#dfb15b] hover:bg-black/70"
+            className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-20 h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white border border-white/20 backdrop-blur-sm transition-all hover:bg-black/70 hover:scale-110"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             onClick={nextSlide}
             aria-label="Next slide"
-            className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-20 h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:border-[#c59b27] hover:text-[#dfb15b] hover:bg-black/70"
+            className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-20 h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white border border-white/20 backdrop-blur-sm transition-all hover:bg-black/70 hover:scale-110"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -165,16 +162,16 @@ export function HeroSlideshow({ slides, whatsappPhone }: Props) {
 
       {/* Sleek bottom indicator dots */}
       {slides.length > 1 && (
-        <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
           {slides.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrent(idx)}
               aria-label={`Go to slide ${idx + 1}`}
-              className={`transition-all duration-500 ${
+              className={`transition-all duration-300 rounded-full ${
                 idx === current
-                  ? "w-7 sm:w-8 h-1.5 rounded-full bg-[#dfb15b] shadow-[0_0_8px_rgba(223,177,91,0.6)]"
-                  : "w-2 h-1.5 rounded-full bg-white/30 hover:bg-white/60"
+                  ? "w-6 h-1.5 bg-white shadow"
+                  : "w-1.5 h-1.5 bg-white/40 hover:bg-white/70"
               }`}
             />
           ))}

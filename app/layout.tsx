@@ -26,10 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }): React.JSX.Element {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${sans.variable} ${serif.variable} font-sans bg-[#080808] text-[#f5f5f5] antialiased selection:bg-[#c59b27]/30 selection:text-white`}
-      >
+    <html lang="en">
+      <body className={`${sans.variable} ${serif.variable} font-sans bg-background text-foreground antialiased`}>
         {children}
       </body>
     </html>

@@ -64,7 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
     .single();
 
   return {
-    title: settings?.business_name ?? "Bala Photography",
+    title: settings?.business_name ?? "Home",
     description: settings?.meta_description ?? settings?.tagline ?? "Professional photography studio.",
   };
 }
@@ -111,11 +111,7 @@ export default async function HomePage() {
       },
       {
         src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1964&auto=format&fit=crop",
-        alt: "Fashion portrait",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=2070&auto=format&fit=crop",
-        alt: "Celebration",
+        alt: "Portrait photo",
       },
     ];
   }
@@ -133,7 +129,7 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ── 1. Hero Slideshow (Image 2 Sample Style — HD, No milky fade) ── */}
+      {/* ── 1. Hero Slideshow (Full HD, Unobstructed, Clean Bottom Buttons) ── */}
       <HeroSlideshow
         slides={slides}
         heading={settings?.hero_heading}
@@ -141,18 +137,15 @@ export default async function HomePage() {
         whatsappPhone={settings?.contact_phone}
       />
 
-      {/* ── 2. Featured Gallery (Image 1 Sample Style) ──────────────────── */}
-      <section className="py-20 sm:py-24 bg-[#080808]">
+      {/* ── 2. Featured Gallery ────────────────────────────────────────── */}
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4 sm:px-6">
           <AnimatedSection>
-            <div className="text-center mb-10 space-y-2">
-              <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.3em] text-[#dfb15b]">
-                — OUR PORTFOLIO —
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Our Portfolio</h2>
+              <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+                A showcase of our recent moments and visual stories
               </p>
-              <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl tracking-tight text-white">
-                <span className="italic font-normal text-[#dfb15b]">Featured</span>{" "}
-                <span className="font-bold">Gallery</span>
-              </h2>
             </div>
           </AnimatedSection>
           <GalleryGrid
@@ -166,25 +159,23 @@ export default async function HomePage() {
 
       {/* ── 3. Services ─────────────────────────────────────────────────── */}
       {services.length > 0 && (
-        <section className="py-20 sm:py-24 bg-[#0c0c0c] border-t border-white/5">
+        <section className="py-20 bg-muted/40 border-t">
           <div className="container mx-auto px-4 sm:px-6">
             <AnimatedSection>
-              <div className="text-center mb-14 space-y-2">
-                <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.3em] text-[#dfb15b]">
-                  — WHAT WE OFFER —
+              <div className="text-center mb-12">
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Services</h2>
+                <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+                  Tailored photography and visual design for every occasion
                 </p>
-                <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white">
-                  Our <span className="italic font-normal text-[#dfb15b]">Services</span>
-                </h2>
               </div>
             </AnimatedSection>
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {services.map((service) => (
                 <AnimatedSection key={service.id}>
-                  <div className="group rounded-sm border border-white/10 bg-[#121212] p-6 transition-all duration-300 hover:border-[#c59b27]/60 hover:shadow-[0_8px_30px_rgba(0,0,0,0.8)]">
+                  <div className="rounded-lg border bg-card p-6 transition-all hover:shadow-md">
                     {service.cover_public_id && (
-                      <div className="mb-5 overflow-hidden rounded-sm aspect-[16/10]">
+                      <div className="mb-4 overflow-hidden rounded-md aspect-[16/10]">
                         <Image
                           src={getCloudinaryUrl(service.cover_public_id, {
                             width: 600,
@@ -197,20 +188,20 @@ export default async function HomePage() {
                           alt={service.title}
                           width={600}
                           height={380}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                         />
                       </div>
                     )}
-                    <h3 className="font-serif text-xl font-bold text-white group-hover:text-[#dfb15b] transition-colors">
+                    <h3 className="text-lg font-bold tracking-tight text-foreground">
                       {service.title}
                     </h3>
                     {service.description && (
-                      <p className="mt-3 text-xs sm:text-sm text-white/60 line-clamp-3 leading-relaxed">
+                      <p className="mt-2 text-sm text-muted-foreground line-clamp-3 leading-relaxed">
                         {service.description}
                       </p>
                     )}
                     {service.price_hint && (
-                      <p className="mt-4 text-xs font-bold uppercase tracking-wider text-[#dfb15b]">
+                      <p className="mt-3 text-xs font-semibold text-primary">
                         {service.price_hint}
                       </p>
                     )}
@@ -219,10 +210,10 @@ export default async function HomePage() {
               ))}
             </div>
 
-            <div className="mt-12 text-center">
+            <div className="mt-10 text-center">
               <Link
                 href="/services"
-                className="inline-flex items-center gap-2 rounded-sm border border-white/20 bg-black/60 px-7 py-3 text-xs font-bold uppercase tracking-widest text-white hover:border-[#c59b27] hover:text-[#dfb15b] transition-all"
+                className="rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent transition-colors shadow-sm"
               >
                 View All Services
               </Link>
@@ -232,12 +223,12 @@ export default async function HomePage() {
       )}
 
       {/* ── 4. About ────────────────────────────────────────────────────── */}
-      <section className="py-20 sm:py-24 bg-[#080808] border-t border-white/5">
+      <section className="py-20 bg-background border-t">
         <div className="container mx-auto px-4 sm:px-6">
           <AnimatedSection>
             <div className="grid grid-cols-1 gap-10 md:grid-cols-2 items-center">
               {aboutImageUrl ? (
-                <div className="relative aspect-[4/3] overflow-hidden rounded-sm border border-white/10 shadow-2xl">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-lg border shadow-sm">
                   <Image
                     src={aboutImageUrl}
                     alt={settings?.about_heading ?? "About us"}
@@ -245,32 +236,28 @@ export default async function HomePage() {
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 border border-[#c59b27]/30 pointer-events-none" />
                 </div>
               ) : (
-                <div className="relative aspect-[4/3] overflow-hidden rounded-sm border border-white/10 bg-[#121212] flex items-center justify-center">
-                  <span className="font-serif italic text-white/30 text-2xl">Bala Photography</span>
+                <div className="relative aspect-[4/3] overflow-hidden rounded-lg border bg-muted flex items-center justify-center text-muted-foreground">
+                  <span className="font-semibold text-xl">Bala Photography</span>
                 </div>
               )}
 
-              <div className="space-y-5">
-                <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.3em] text-[#dfb15b]">
-                  — THE STUDIO —
-                </p>
-                <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white leading-tight">
+              <div className="space-y-4">
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
                   {settings?.about_heading ?? "About Us"}
                 </h2>
                 {settings?.about_body && (
-                  <p className="text-xs sm:text-sm text-white/70 leading-relaxed whitespace-pre-line">
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed whitespace-pre-line">
                     {settings.about_body}
                   </p>
                 )}
-                <div className="pt-3">
+                <div className="pt-2">
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-2 rounded-sm bg-[#c59b27] px-7 py-3 text-xs font-bold uppercase tracking-widest text-black hover:bg-[#dfb15b] transition-all"
+                    className="rounded-md bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
                   >
-                    Connect With Us
+                    Get in Touch
                   </Link>
                 </div>
               </div>
@@ -281,42 +268,40 @@ export default async function HomePage() {
 
       {/* ── 5. Testimonials ─────────────────────────────────────────────── */}
       {testimonials.length > 0 && (
-        <section className="py-20 sm:py-24 bg-[#0c0c0c] border-t border-white/5">
+        <section className="py-20 bg-muted/30 border-t">
           <div className="container mx-auto px-4 sm:px-6">
             <AnimatedSection>
-              <div className="text-center mb-14 space-y-2">
-                <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.3em] text-[#dfb15b]">
-                  — CLIENT LOVE —
+              <div className="text-center mb-12">
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Client Testimonials</h2>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  What our clients say about their experience
                 </p>
-                <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white">
-                  Words From <span className="italic font-normal text-[#dfb15b]">Our Clients</span>
-                </h2>
               </div>
             </AnimatedSection>
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {testimonials.map((t) => (
                 <AnimatedSection key={t.id}>
-                  <div className="rounded-sm border border-white/10 bg-[#121212] p-7 space-y-4">
+                  <div className="rounded-lg border bg-card p-6 space-y-3 shadow-sm">
                     {t.rating && (
-                      <div className="flex gap-1 text-[#dfb15b]">
+                      <div className="flex gap-0.5 text-amber-500">
                         {Array.from({ length: 5 }).map((_, i) => (
-                          <span key={i} className={i < t.rating! ? "text-[#dfb15b]" : "text-white/20"}>
+                          <span key={i} className={i < t.rating! ? "text-amber-500" : "text-muted/40"}>
                             ★
                           </span>
                         ))}
                       </div>
                     )}
-                    <blockquote className="font-serif italic text-white/80 text-xs sm:text-sm leading-relaxed">
+                    <blockquote className="text-sm text-muted-foreground italic leading-relaxed">
                       &ldquo;{t.quote}&rdquo;
                     </blockquote>
-                    <div className="pt-2 border-t border-white/5 flex items-center gap-3">
+                    <div className="pt-2 border-t flex items-center gap-3">
                       <div>
-                        <p className="text-xs font-bold uppercase tracking-wider text-white">
+                        <p className="text-xs font-bold text-foreground">
                           {t.client_name}
                         </p>
                         {t.client_title && (
-                          <p className="text-[11px] text-white/50 tracking-wider">
+                          <p className="text-[11px] text-muted-foreground">
                             {t.client_title}
                           </p>
                         )}
@@ -331,23 +316,20 @@ export default async function HomePage() {
       )}
 
       {/* ── 6. Bottom Banner CTA ────────────────────────────────────────── */}
-      <section className="relative py-20 sm:py-24 overflow-hidden border-t border-white/10 bg-gradient-to-b from-[#080808] to-[#121212]">
-        <div className="container mx-auto px-4 sm:px-6 text-center">
+      <section className="py-16 sm:py-20 bg-primary text-primary-foreground text-center">
+        <div className="container mx-auto px-4 sm:px-6">
           <AnimatedSection>
-            <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.3em] text-[#dfb15b] mb-3">
-              — LET&apos;S TALK —
-            </p>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white mb-5">
-              Ready to capture your <span className="italic font-normal text-[#dfb15b]">timeless story</span>?
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Ready to create something beautiful?
             </h2>
-            <p className="max-w-xl mx-auto text-xs sm:text-sm text-white/70 mb-8 leading-relaxed">
-              From intimate celebrations to grand weddings, we turn your precious moments into art that lasts forever.
+            <p className="max-w-xl mx-auto text-sm sm:text-base text-primary-foreground/80 mb-8">
+              Let&apos;s discuss your project, event, or portrait session and bring your vision to life.
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-3 rounded-sm bg-[#c59b27] px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-black hover:bg-[#dfb15b] hover:shadow-[0_0_30px_rgba(197,155,39,0.4)] transition-all"
+              className="rounded-md bg-background text-foreground px-7 py-3 text-sm font-semibold hover:bg-accent transition-colors shadow-sm"
             >
-              BOOK YOUR SESSION
+              Book a Session
             </Link>
           </AnimatedSection>
         </div>

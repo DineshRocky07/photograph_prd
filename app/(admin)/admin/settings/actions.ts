@@ -40,7 +40,8 @@ export async function saveSettings(formData: FormData) {
 
   if (dbError) return { success: false, error: getErrorMessage(dbError) };
 
-  // Revalidate every public page that reads from site_settings
+  // Revalidate every public page and root layout that reads from site_settings
+  revalidatePath("/", "layout");
   revalidatePath("/");
   revalidatePath("/about");
   revalidatePath("/services");

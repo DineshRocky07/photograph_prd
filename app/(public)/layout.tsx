@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { Navbar } from "@/components/public/navbar";
 import { Footer } from "@/components/public/footer";
 import { FloatingWhatsApp } from "@/components/public/floating-whatsapp";
+import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 import type { SiteSettings } from "@/types";
 
 // Default fallback settings so the site never crashes if DB is empty
@@ -44,15 +45,36 @@ async function getSettings(): Promise<SiteSettings> {
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings();
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://photograph-prd.vercel.app";
+
+  const ogImageUrl = settings.og_image_public_id
+    ? getCloudinaryUrl(settings.og_image_public_id, {
+        width: 1200,
+        height: 630,
+        crop: "fill",
+        format: "jpg",
+      })
+    : undefined;
+
   return {
+    metadataBase: new URL(siteUrl),
     title: {
       template: `%s | ${settings.business_name}`,
       default: `${settings.business_name} — ${settings.tagline}`,
     },
     description: settings.meta_description ?? settings.tagline,
     openGraph: {
+      title: `${settings.business_name} — ${settings.tagline}`,
+      description: settings.meta_description ?? settings.tagline,
       siteName: settings.business_name,
       type: "website",
+      images: ogImageUrl ? [{ url: ogImageUrl, width: 1200, height: 630 }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${settings.business_name} — ${settings.tagline}`,
+      description: settings.meta_description ?? settings.tagline,
+      images: ogImageUrl ? [ogImageUrl] : [],
     },
   };
 }
@@ -65,7 +87,7 @@ export default async function PublicLayout({
   const settings = await getSettings();
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#080808] text-[#f5f5f5]">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Navbar settings={settings} />
       <main className="flex-1">{children}</main>
       <Footer settings={settings} />
