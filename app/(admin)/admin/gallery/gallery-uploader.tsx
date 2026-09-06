@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Upload, CheckCircle, XCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { optimizeImageForUpload } from "@/lib/image-compress";
 
 type UploadItem = {
   file: File;
@@ -43,11 +44,14 @@ export function GalleryUploader() {
         prev.map((u, idx) => (idx === i ? { ...u, status: "uploading" } : u))
       );
 
-      const formData = new FormData();
-      formData.append("file", items[i].file);
-      formData.append("folder", "balaphoto/gallery");
-
       try {
+        // Optimize image in browser if it's large (prevents Vercel 4.5MB limit error)
+        const fileToUpload = await optimizeImageForUpload(items[i].file);
+
+        const formData = new FormData();
+        formData.append("file", fileToUpload);
+        formData.append("folder", "balaphoto/gallery");
+
         const res = await fetch("/api/upload", { method: "POST", body: formData });
         const json = await res.json();
 

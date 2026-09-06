@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Upload, Images, X, Check, Loader2 } from "lucide-react";
 import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 import { Button } from "@/components/ui/button";
+import { optimizeImageForUpload } from "@/lib/image-compress";
 import type { GalleryItem } from "@/types";
 
 type Props = {
@@ -54,28 +55,34 @@ export function ImagePicker({ value, onChange, label, uploadFolder = "balaphoto"
   async function handleFileUpload(file: File) {
     setUploadError(null);
     setMode("uploading");
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("folder", uploadFolder);
+    try {
+      const fileToUpload = await optimizeImageForUpload(file);
+      const formData = new FormData();
+      formData.append("file", fileToUpload);
+      formData.append("folder", uploadFolder);
 
-    const res = await fetch("/api/upload", { method: "POST", body: formData });
-    const json = await res.json();
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const json = await res.json();
 
-    if (!res.ok || json.error) {
-      setUploadError(json.error ?? "Upload failed. Please try again.");
+      if (!res.ok || json.error) {
+        setUploadError(json.error ?? "Upload failed. Please try again.");
+        setMode("idle");
+        return;
+      }
+
+      // Save to gallery table
+      await fetch("/api/admin/save-image", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(json),
+      });
+
+      onChange(json.public_id);
       setMode("idle");
-      return;
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Upload failed");
+      setMode("idle");
     }
-
-    // Save to gallery table
-    await fetch("/api/admin/save-image", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(json),
-    });
-
-    onChange(json.public_id);
-    setMode("idle");
   }
 
   return (

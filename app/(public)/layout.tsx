@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { Navbar } from "@/components/public/navbar";
 import { Footer } from "@/components/public/footer";
+import { FloatingWhatsApp } from "@/components/public/floating-whatsapp";
 import type { SiteSettings } from "@/types";
 
 // Default fallback settings so the site never crashes if DB is empty
@@ -64,10 +65,11 @@ export default async function PublicLayout({
   const settings = await getSettings();
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-[#080808] text-[#f5f5f5]">
       <Navbar settings={settings} />
       <main className="flex-1">{children}</main>
       <Footer settings={settings} />
+      <FloatingWhatsApp phone={settings.contact_phone} businessName={settings.business_name} />
     </div>
   );
 }
