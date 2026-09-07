@@ -114,6 +114,8 @@ export const siteSettingsSchema = z.object({
   about_body: z.string().max(5000).optional().or(z.literal("")),
   about_image_public_id: z.string().optional().or(z.literal("")),
   meta_description: z.string().max(300).optional().or(z.literal("")),
+  og_image_public_id: z.string().optional().or(z.literal("")),
+  favicon_public_id: z.string().optional().or(z.literal("")),
 });
 
 export type SiteSettingsFormData = z.infer<typeof siteSettingsSchema>;

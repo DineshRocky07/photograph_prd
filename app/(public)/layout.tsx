@@ -34,12 +34,16 @@ const DEFAULT_SETTINGS: SiteSettings = {
   updated_at: "",
 };
 
+export const dynamic = "force-dynamic";
+
 async function getSettings(): Promise<SiteSettings> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("site_settings")
     .select("*")
-    .single();
+    .order("created_at", { ascending: true })
+    .limit(1)
+    .maybeSingle();
   return (data as SiteSettings) ?? DEFAULT_SETTINGS;
 }
 
@@ -56,8 +60,31 @@ export async function generateMetadata(): Promise<Metadata> {
       })
     : undefined;
 
+  const browserIconUrl = settings.favicon_public_id
+    ? getCloudinaryUrl(settings.favicon_public_id, {
+        width: 64,
+        height: 64,
+        crop: "fill",
+        format: "png",
+      })
+    : settings.logo_public_id
+    ? getCloudinaryUrl(settings.logo_public_id, {
+        width: 64,
+        height: 64,
+        crop: "fill",
+        format: "png",
+      })
+    : undefined;
+
   return {
     metadataBase: new URL(siteUrl),
+    icons: browserIconUrl
+      ? {
+          icon: browserIconUrl,
+          shortcut: browserIconUrl,
+          apple: browserIconUrl,
+        }
+      : undefined,
     title: {
       template: `%s | ${settings.business_name}`,
       default: `${settings.business_name} — ${settings.tagline}`,

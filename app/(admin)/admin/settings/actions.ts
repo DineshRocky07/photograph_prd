@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/server";
 import { siteSettingsSchema } from "@/lib/validations";
 import { getErrorMessage } from "@/lib/utils";
 
@@ -18,13 +18,15 @@ export async function saveSettings(formData: FormData) {
     return { success: false, error: firstError ?? "Validation failed" };
   }
 
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
-  // Check if a settings row exists
+  // Check if a settings row exists (using maybeSingle to avoid errors if multiple or no rows)
   const { data: existing } = await supabase
     .from("site_settings")
     .select("id")
-    .single();
+    .order("created_at", { ascending: true })
+    .limit(1)
+    .maybeSingle();
 
   let dbError;
   if (existing?.id) {

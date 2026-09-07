@@ -8,12 +8,19 @@ import { GalleryGrid } from "@/components/public/gallery-grid";
 import { HeroSlideshow } from "@/components/public/hero-slideshow";
 import type { SiteSettings, Service, GalleryItem, Testimonial, Category } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 async function getHomeData() {
   const supabase = await createClient();
 
   const [settingsRes, servicesRes, galleryRes, testimonialsRes, categoriesRes, heroRes] =
     await Promise.all([
-      supabase.from("site_settings").select("*").single(),
+      supabase
+        .from("site_settings")
+        .select("*")
+        .order("created_at", { ascending: true })
+        .limit(1)
+        .maybeSingle(),
       supabase
         .from("services")
         .select("*, category:categories(*)")
@@ -61,7 +68,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const { data: settings } = await supabase
     .from("site_settings")
     .select("business_name, tagline, meta_description")
-    .single();
+    .order("created_at", { ascending: true })
+    .limit(1)
+    .maybeSingle();
 
   return {
     title: settings?.business_name ?? "Home",
