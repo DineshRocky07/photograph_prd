@@ -156,12 +156,12 @@ export default async function HomePage() {
       />
 
       {/* ── 2. Featured Gallery ────────────────────────────────────────── */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4 sm:px-6">
+      <section className="py-10 sm:py-16 md:py-20 bg-background">
+        <div className="container mx-auto px-3.5 sm:px-6">
           <AnimatedSection>
-            <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Our Portfolio</h2>
-              <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+            <div className="text-center mb-6 sm:mb-10">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Our Portfolio</h2>
+              <p className="mt-1.5 text-xs sm:text-sm md:text-base text-muted-foreground">
                 A showcase of our recent moments and visual stories
               </p>
             </div>
@@ -177,23 +177,23 @@ export default async function HomePage() {
 
       {/* ── 3. Services ─────────────────────────────────────────────────── */}
       {services.length > 0 && (
-        <section className="py-20 bg-muted/40 border-t">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="py-10 sm:py-16 md:py-20 bg-muted/40 border-t">
+          <div className="container mx-auto px-3.5 sm:px-6">
             <AnimatedSection>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Services</h2>
-                <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+              <div className="text-center mb-8 sm:mb-12">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Services</h2>
+                <p className="mt-1.5 text-xs sm:text-sm md:text-base text-muted-foreground">
                   Tailored photography and visual design for every occasion
                 </p>
               </div>
             </AnimatedSection>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {services.map((service) => (
                 <AnimatedSection key={service.id}>
-                  <div className="rounded-lg border bg-card p-6 transition-all hover:shadow-md">
+                  <div className="rounded-lg border bg-card p-4 sm:p-6 transition-all hover:shadow-md">
                     {service.cover_public_id && (
-                      <div className="mb-4 overflow-hidden rounded-md aspect-[16/10]">
+                      <div className="mb-3 sm:mb-4 overflow-hidden rounded-md aspect-[16/10]">
                         <Image
                           src={getCloudinaryUrl(service.cover_public_id, {
                             width: 600,
@@ -210,16 +210,16 @@ export default async function HomePage() {
                         />
                       </div>
                     )}
-                    <h3 className="text-lg font-bold tracking-tight text-foreground">
+                    <h3 className="text-base sm:text-lg font-bold tracking-tight text-foreground">
                       {service.title}
                     </h3>
                     {service.description && (
-                      <p className="mt-2 text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+                      <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground line-clamp-3 leading-relaxed">
                         {service.description}
                       </p>
                     )}
                     {service.price_hint && (
-                      <p className="mt-3 text-xs font-semibold text-primary">
+                      <p className="mt-2.5 sm:mt-3 text-xs font-semibold text-primary">
                         {service.price_hint}
                       </p>
                     )}
@@ -228,10 +228,10 @@ export default async function HomePage() {
               ))}
             </div>
 
-            <div className="mt-10 text-center">
+            <div className="mt-8 sm:mt-10 text-center">
               <Link
                 href="/services"
-                className="rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent transition-colors shadow-sm"
+                className="inline-block rounded-md border border-input bg-background px-5 py-2 sm:px-6 sm:py-2.5 text-xs sm:text-sm font-medium hover:bg-accent transition-colors shadow-xs"
               >
                 View All Services
               </Link>
@@ -241,12 +241,12 @@ export default async function HomePage() {
       )}
 
       {/* ── 4. About ────────────────────────────────────────────────────── */}
-      <section className="py-20 bg-background border-t">
-        <div className="container mx-auto px-4 sm:px-6">
+      <section className="py-10 sm:py-16 md:py-20 bg-background border-t">
+        <div className="container mx-auto px-3.5 sm:px-6">
           <AnimatedSection>
-            <div className="grid grid-cols-1 gap-10 md:grid-cols-2 items-center">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-10 items-center">
               {aboutImageUrl ? (
-                <div className="relative aspect-[4/3] overflow-hidden rounded-lg border shadow-sm">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-lg border shadow-xs">
                   <Image
                     src={aboutImageUrl}
                     alt={settings?.about_heading ?? "About us"}
@@ -257,22 +257,22 @@ export default async function HomePage() {
                 </div>
               ) : (
                 <div className="relative aspect-[4/3] overflow-hidden rounded-lg border bg-muted flex items-center justify-center text-muted-foreground">
-                  <span className="font-semibold text-xl">Bala Photography</span>
+                  <span className="font-semibold text-lg sm:text-xl">Bala Photography</span>
                 </div>
               )}
 
-              <div className="space-y-4">
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+              <div className="space-y-3 sm:space-y-4">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-foreground">
                   {settings?.about_heading ?? "About Us"}
                 </h2>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed whitespace-pre-line">
+                <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed whitespace-pre-line">
                   {settings?.about_body ||
                     "We are a creative studio specialising in professional photography and visual design. With years of experience behind the lens, we turn your most cherished memories into timeless art."}
                 </p>
-                <div className="pt-2">
+                <div className="pt-1 sm:pt-2">
                   <Link
                     href="/contact"
-                    className="rounded-md bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+                    className="inline-block rounded-md bg-primary px-5 py-2 sm:px-6 sm:py-2.5 text-xs sm:text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors shadow-xs"
                   >
                     Get in Touch
                   </Link>
@@ -285,23 +285,23 @@ export default async function HomePage() {
 
       {/* ── 5. Testimonials ─────────────────────────────────────────────── */}
       {testimonials.length > 0 && (
-        <section className="py-20 bg-muted/30 border-t">
-          <div className="container mx-auto px-4 sm:px-6">
+        <section className="py-10 sm:py-16 md:py-20 bg-muted/30 border-t">
+          <div className="container mx-auto px-3.5 sm:px-6">
             <AnimatedSection>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Client Testimonials</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
+              <div className="text-center mb-8 sm:mb-12">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">Client Testimonials</h2>
+                <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground">
                   What our clients say about their experience
                 </p>
               </div>
             </AnimatedSection>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-6">
               {testimonials.map((t) => (
                 <AnimatedSection key={t.id}>
-                  <div className="rounded-lg border bg-card p-6 space-y-3 shadow-sm">
+                  <div className="rounded-lg border bg-card p-4 sm:p-6 space-y-2.5 sm:space-y-3 shadow-xs">
                     {t.rating && (
-                      <div className="flex gap-0.5 text-amber-500">
+                      <div className="flex gap-0.5 text-amber-500 text-sm">
                         {Array.from({ length: 5 }).map((_, i) => (
                           <span key={i} className={i < t.rating! ? "text-amber-500" : "text-muted/40"}>
                             ★
@@ -309,7 +309,7 @@ export default async function HomePage() {
                         ))}
                       </div>
                     )}
-                    <blockquote className="text-sm text-muted-foreground italic leading-relaxed">
+                    <blockquote className="text-xs sm:text-sm text-muted-foreground italic leading-relaxed">
                       &ldquo;{t.quote}&rdquo;
                     </blockquote>
                     <div className="pt-2 border-t flex items-center gap-3">
@@ -318,7 +318,7 @@ export default async function HomePage() {
                           {t.client_name}
                         </p>
                         {t.client_title && (
-                          <p className="text-[11px] text-muted-foreground">
+                          <p className="text-[10px] sm:text-[11px] text-muted-foreground">
                             {t.client_title}
                           </p>
                         )}
@@ -333,18 +333,18 @@ export default async function HomePage() {
       )}
 
       {/* ── 6. Bottom Banner CTA ────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-primary text-primary-foreground text-center">
+      <section className="py-12 sm:py-16 md:py-20 bg-primary text-primary-foreground text-center">
         <div className="container mx-auto px-4 sm:px-6">
           <AnimatedSection>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
               Ready to create something beautiful?
             </h2>
-            <p className="max-w-xl mx-auto text-sm sm:text-base text-primary-foreground/80 mb-8">
+            <p className="max-w-xl mx-auto text-xs sm:text-sm md:text-base text-primary-foreground/80 mb-6 sm:mb-8">
               Let&apos;s discuss your project, event, or portrait session and bring your vision to life.
             </p>
             <Link
               href="/contact"
-              className="rounded-md bg-background text-foreground px-7 py-3 text-sm font-semibold hover:bg-accent transition-colors shadow-sm"
+              className="inline-block rounded-md bg-background text-foreground px-6 py-2.5 sm:px-7 sm:py-3 text-xs sm:text-sm font-semibold hover:bg-accent transition-colors shadow-xs"
             >
               Book a Session
             </Link>

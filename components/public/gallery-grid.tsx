@@ -51,7 +51,7 @@ export function GalleryGrid({
 
   if (items.length === 0) {
     return (
-      <div className="py-16 text-center text-muted-foreground">
+      <div className="py-12 sm:py-16 text-center text-muted-foreground text-sm">
         No images yet — upload photos in the admin panel to display them here!
       </div>
     );
@@ -59,52 +59,54 @@ export function GalleryGrid({
 
   return (
     <div>
-      {/* Category filter tabs — Clean modern pill buttons */}
+      {/* Category filter tabs — Horizontal thumb swipe on mobile, wrapped on desktop */}
       {showFilter && categories.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-8 justify-center">
-          <button
-            onClick={() => setActiveCategory("all")}
-            className={`rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium transition-colors ${
-              activeCategory === "all"
-                ? "bg-primary text-primary-foreground shadow-sm"
-                : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
-            }`}
-          >
-            All
-          </button>
-          {categories.map((cat) => (
+        <div className="mb-6 sm:mb-8 overflow-x-auto scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 w-max sm:w-auto sm:flex-wrap sm:justify-center py-1">
             <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.slug)}
-              className={`rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium transition-colors ${
-                activeCategory === cat.slug
-                  ? "bg-primary text-primary-foreground shadow-sm"
+              onClick={() => setActiveCategory("all")}
+              className={`rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-medium transition-all shrink-0 ${
+                activeCategory === "all"
+                  ? "bg-primary text-primary-foreground shadow-xs"
                   : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
               }`}
             >
-              {cat.name}
+              All
             </button>
-          ))}
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.slug)}
+                className={`rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-medium transition-all shrink-0 ${
+                  activeCategory === cat.slug
+                    ? "bg-primary text-primary-foreground shadow-xs"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Grid — Clean, responsive layout */}
+      {/* Grid — 2 columns on mobile (Instagram style), 3 on tablet, 4 on desktop */}
       {filtered.length === 0 ? (
-        <div className="py-16 text-center text-muted-foreground">
+        <div className="py-12 sm:py-16 text-center text-muted-foreground text-sm">
           No images in this category yet.
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
           {filtered.map((item, index) => (
             <div
               key={item.id}
-              className="group relative aspect-[3/4] overflow-hidden rounded-lg bg-muted cursor-pointer border hover:border-primary/50 transition-all shadow-sm hover:shadow-md"
+              className="group relative aspect-[3/4] overflow-hidden rounded-md sm:rounded-lg bg-muted cursor-pointer border hover:border-primary/50 transition-all shadow-xs hover:shadow-md active:scale-[0.98]"
               onClick={() => openLightbox(index)}
             >
               <Image
                 src={getCloudinaryUrl(item.public_id, {
-                  width: 700,
-                  height: 900,
+                  width: 600,
+                  height: 800,
                   format: "auto",
                   quality: "auto",
                   crop: "fill",
@@ -114,17 +116,17 @@ export function GalleryGrid({
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               />
               {/* Subtle hover gradient with title and category */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2.5 sm:p-4">
                 {item.title && (
-                  <p className="text-white text-sm font-semibold truncate">
+                  <p className="text-white text-xs sm:text-sm font-semibold truncate">
                     {item.title}
                   </p>
                 )}
                 {item.category?.name && (
-                  <p className="text-white/80 text-xs mt-0.5">
+                  <p className="text-white/80 text-[10px] sm:text-xs mt-0.5">
                     {item.category.name}
                   </p>
                 )}
@@ -136,10 +138,10 @@ export function GalleryGrid({
 
       {/* Link to full gallery */}
       {linkToFullGallery && (
-        <div className="mt-10 text-center">
+        <div className="mt-8 sm:mt-10 text-center">
           <Link
             href="/gallery"
-            className="rounded-md border border-input bg-background px-6 py-2.5 text-sm font-medium hover:bg-accent transition-colors shadow-sm"
+            className="inline-block rounded-md border border-input bg-background px-5 py-2 sm:px-6 sm:py-2.5 text-xs sm:text-sm font-medium hover:bg-accent transition-colors shadow-xs"
           >
             View Full Gallery
           </Link>

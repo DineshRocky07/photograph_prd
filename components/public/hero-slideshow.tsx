@@ -60,7 +60,7 @@ export function HeroSlideshow({ slides, heading, subheading, whatsappPhone }: Pr
 
   return (
     <section
-      className="relative flex min-h-[75vh] sm:min-h-[88vh] w-full items-end justify-center overflow-hidden bg-black select-none"
+      className="relative flex min-h-[68dvh] sm:min-h-[85vh] w-full items-end justify-center overflow-hidden bg-black select-none"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -82,23 +82,23 @@ export function HeroSlideshow({ slides, heading, subheading, whatsappPhone }: Pr
               fill
               sizes="100vw"
               priority={index === 0}
-              className={`object-cover transition-transform duration-[6000ms] ease-out ${
+              className={`object-cover object-center transition-transform duration-[6000ms] ease-out ${
                 isActive ? "scale-105" : "scale-100"
               }`}
             />
-            {/* Soft bottom vignette only so bottom buttons are crisp; center & top remain 100% clear! */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent pointer-events-none" />
+            {/* Soft bottom vignette so buttons are readable; center & top remain 100% clear! */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent pointer-events-none" />
           </div>
         );
       })}
 
-      {/* Clean, unobtrusive bottom controls (photo is completely visible without big centered text blocking faces!) */}
-      <div className="relative z-10 container mx-auto px-4 pb-12 sm:pb-16 text-center">
-        {/* Subtle heading at the bottom if provided */}
+      {/* Clean, unobtrusive bottom controls */}
+      <div className="relative z-10 container mx-auto px-4 pb-8 sm:pb-14 text-center">
+        {/* Heading if provided */}
         {(heading || subheading) && (
-          <div className="max-w-2xl mx-auto mb-6 text-white drop-shadow-md">
+          <div className="max-w-2xl mx-auto mb-4 sm:mb-6 text-white drop-shadow-md">
             {heading && (
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
+              <h1 className="text-lg sm:text-2xl md:text-3xl font-bold tracking-tight">
                 {heading}
               </h1>
             )}
@@ -110,11 +110,11 @@ export function HeroSlideshow({ slides, heading, subheading, whatsappPhone }: Pr
           </div>
         )}
 
-        {/* Action Buttons — sleek, modern, positioned neatly at bottom */}
-        <div className="flex flex-row items-center justify-center gap-3 max-w-sm sm:max-w-none mx-auto">
+        {/* Action Buttons — thumb-friendly on phones */}
+        <div className="flex flex-row items-center justify-center gap-2.5 sm:gap-3 max-w-sm sm:max-w-none mx-auto">
           <Link
             href="/gallery"
-            className="rounded-md bg-white text-black px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold hover:bg-white/90 transition-all shadow-lg hover:shadow-xl"
+            className="rounded-md bg-white text-black px-5 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold hover:bg-white/90 transition-all shadow-md active:scale-95"
           >
             View Gallery
           </Link>
@@ -124,7 +124,7 @@ export function HeroSlideshow({ slides, heading, subheading, whatsappPhone }: Pr
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md bg-[#25D366] text-white px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold hover:bg-[#20bd5a] transition-all shadow-lg"
+              className="inline-flex items-center gap-1.5 sm:gap-2 rounded-md bg-[#25D366] text-white px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold hover:bg-[#20bd5a] transition-all shadow-md active:scale-95"
             >
               <MessageCircle className="h-4 w-4" />
               <span>WhatsApp</span>
@@ -132,7 +132,7 @@ export function HeroSlideshow({ slides, heading, subheading, whatsappPhone }: Pr
           ) : (
             <Link
               href="/contact"
-              className="rounded-md bg-black/60 border border-white/40 text-white backdrop-blur-md px-6 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold hover:bg-black/80 transition-all"
+              className="rounded-md bg-black/60 border border-white/40 text-white backdrop-blur-md px-5 sm:px-7 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold hover:bg-black/80 transition-all active:scale-95"
             >
               Book a Session
             </Link>
@@ -162,7 +162,7 @@ export function HeroSlideshow({ slides, heading, subheading, whatsappPhone }: Pr
 
       {/* Sleek bottom indicator dots */}
       {slides.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
+        <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
           {slides.map((_, idx) => (
             <button
               key={idx}
