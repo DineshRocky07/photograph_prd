@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Instagram, Facebook, Twitter, Youtube, Linkedin, Share2, MessageCircle, Phone, Mail, MapPin } from "lucide-react";
+import { getCloudinaryUrl } from "@/lib/cloudinary-url";
 import type { SiteSettings } from "@/types";
 
 const SOCIAL_ICONS = {
@@ -22,13 +24,28 @@ export function Footer({ settings }: { settings: SiteSettings }) {
     ? `https://wa.me/${cleanPhone}?text=Hi%20Bala%20Photography,%20I%20would%20like%20to%20inquire%20about%20a%20photoshoot.`
     : "/contact";
 
+  const logoUrl = settings.logo_public_id
+    ? getCloudinaryUrl(settings.logo_public_id, { width: 64, height: 64, crop: "fill", format: "auto" })
+    : null;
+
   return (
     <footer className="border-t bg-muted/30">
       <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-14">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="md:col-span-2 space-y-3">
-            <p className="text-lg font-bold tracking-tight text-foreground">{settings.business_name}</p>
+            <div className="flex items-center gap-2.5">
+              {logoUrl && (
+                <Image
+                  src={logoUrl}
+                  alt={settings.business_name}
+                  width={36}
+                  height={36}
+                  className="h-8 w-8 rounded-md object-cover"
+                />
+              )}
+              <p className="text-lg font-bold tracking-tight text-foreground">{settings.business_name}</p>
+            </div>
             {settings.tagline && (
               <p className="text-sm text-muted-foreground max-w-sm">{settings.tagline}</p>
             )}

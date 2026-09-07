@@ -32,22 +32,21 @@ export function Navbar({ settings }: { settings: SiteSettings }) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
-        {/* Logo / Business Name */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          {logoUrl ? (
+        {/* Logo + Business Name side by side */}
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
+          {logoUrl && (
             <Image
               src={logoUrl}
               alt={settings.business_name}
-              width={160}
-              height={50}
-              className="h-10 w-auto object-contain"
+              width={40}
+              height={40}
+              className="h-8 w-8 sm:h-9 sm:w-9 rounded-md object-cover shadow-xs"
               priority
             />
-          ) : (
-            <span className="text-xl font-bold tracking-tight text-foreground">
-              {settings.business_name}
-            </span>
           )}
+          <span className="text-lg sm:text-xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
+            {settings.business_name}
+          </span>
         </Link>
 
         {/* Desktop nav */}
